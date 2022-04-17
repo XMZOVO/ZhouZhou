@@ -24,11 +24,11 @@ function pullBtn(): void {
     v-bind:class="{ 'opacity-100': loaded }"
   ></canvas>
   <div
-    class="absolute top-24 left-10 select-none p-4 pt-2 text-4xl opacity-0 transition duration-1000 sm:left-28 sm:top-1/3 sm:text-5xl"
+    class="absolute top-24 left-8 select-none p-4 pt-2 text-4xl opacity-0 transition duration-1000 sm:left-28 sm:top-1/3 sm:text-5xl"
     v-bind:class="{ 'opacity-100': loaded }"
   >
     <div class="text-white">It's Summer Now</div>
-    <div class="text-xl text-gray-300 sm:text-2xl">
+    <div class="text-lg text-gray-300 sm:text-2xl">
       <div>Xiao Liu is going to</div>
       <div>pursue meaningful people and things</div>
     </div>
@@ -81,7 +81,7 @@ body {
   position: absolute;
   margin: -50px 0 0 -74px;
   left: 50%;
-  top: 60%;
+  top: 50%;
 }
 
 .loader {
