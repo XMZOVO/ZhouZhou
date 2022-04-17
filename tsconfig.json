@@ -5,13 +5,15 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
