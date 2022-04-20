@@ -13,6 +13,10 @@ const routes = [
         path: "WebG4",
         component: () => import("../components/WebG4.vue"),
       },
+      {
+        path: "Labortary",
+        component: () => import("../components/Labortary.vue"),
+      },
     ],
   },
 ];

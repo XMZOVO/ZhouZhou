@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Scene } from "@babylonjs/core";
 import { ref, onMounted } from "vue";
 import { MainPage } from "../Babylon/MainPage/MainPage";
 
