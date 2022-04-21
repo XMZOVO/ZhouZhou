@@ -1,11 +1,48 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { MainPage } from "../Babylon/MainPage/MainPage";
-
-const bjsCanvas = ref();
-const loaded = ref(false);
+import "tw-elements";
+import List from "../component/List.vue";
+import ListItem from "../component/ListItem.vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 let scene: any;
+const router = useRouter();
+const bjsCanvas = ref();
+const loaded = ref(false);
+const messages = ref([
+  {
+    id: 0,
+    message: "E批",
+    good: 1,
+    bad: 2,
+  },
+]);
+const myMessage = ref({
+  message: "",
+  good: 0,
+  bad: 0,
+});
+
+const httpUrl = "43.154.8.62";
+// const httpUrl = 'localhost'
+
+// http请求
+axios.get("http://" + httpUrl + ":8080/message/list").then((resp) => {
+  messages.value = resp.data;
+});
+
+//留言
+function leaveMessage() {
+  axios
+    .post("http://" + httpUrl + ":8080/message/add", myMessage.value)
+    .then((resp) => {
+      axios.get("http://" + httpUrl + ":8080/message/list").then((resp) => {
+        messages.value = resp.data;
+      });
+    });
+}
 
 onMounted(() => {
   scene = new MainPage(bjsCanvas.value, loaded);
@@ -22,6 +59,7 @@ function pullBtn(): void {
     class="h-screen w-full opacity-0 transition duration-1000"
     v-bind:class="{ 'opacity-100': loaded }"
   ></canvas>
+
   <div
     class="absolute top-24 left-8 select-none p-4 pt-2 text-4xl opacity-0 transition duration-1000 sm:left-28 sm:top-1/3 sm:text-5xl"
     v-bind:class="{ 'opacity-100': loaded }"
@@ -32,11 +70,121 @@ function pullBtn(): void {
       <div>pursue meaningful people and things</div>
     </div>
     <button
-      @click="pullBtn"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasRight"
+      aria-controls="offcanvasRight"
       class="mt-5 rounded-lg border px-2 text-4xl text-white transition ease-in-out hover:-translate-y-1 hover:shadow-lg"
     >
       Pull
     </button>
+
+    <!-- 侧弹出 -->
+
+    <div
+      class="offcanvas offcanvas-end invisible fixed bottom-0 top-0 right-0 flex w-96 max-w-full flex-col border-none bg-stone-800 bg-clip-padding text-gray-700 shadow-sm outline-none transition duration-300 ease-in-out"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header flex items-center justify-between p-4">
+        <h5
+          class="offcanvas-title mb-0 text-xl font-semibold leading-normal text-white"
+          id="offcanvasRightLabel"
+        >
+          Message
+        </h5>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 cursor-pointer"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="white"
+          stroke-width="2"
+          data-bs-dismiss="offcanvas"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </div>
+      <div class="offcanvas-body flex-grow overflow-y-auto p-4">
+        <List>
+          <ListItem
+            v-for="message in messages"
+            :key="message.id"
+            :message="message"
+          />
+        </List>
+      </div>
+
+      <div class="h-14 w-full border-t bg-stone-800 text-sm">
+        <!-- 留言 -->
+        <div class="flex justify-between space-x-3 px-5 py-2">
+          <img
+            @click="leaveMessage"
+            src="/messageFinger.png"
+            class="h-10 w-10 cursor-pointer rounded-full transition duration-150 ease-in-out hover:translate-y-1"
+          />
+          <input
+            v-model="myMessage.message"
+            type="text"
+            class="form-control m-0 block flex-1 rounded-full border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-1.5 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
+            id="exampleFormControlInput1"
+            placeholder="Leave your message"
+          />
+        </div>
+        <!-- 留言 -->
+      </div>
+
+      <!-- 分页 -->
+      <!-- <div class="flex justify-center text-sm">
+        <nav aria-label="Page navigation example">
+          <ul class="list-style-none flex">
+            <li class="page-item disabled">
+              <a
+                class="page-link pointer-events-none relative block rounded-full border-0 bg-transparent py-1.5 px-3 text-white outline-none transition-all duration-300 focus:shadow-none"
+                href="#"
+                tabindex="-1"
+                aria-disabled="true"
+                >Previous</a
+              >
+            </li>
+            <li class="page-item">
+              <a
+                class="page-link relative block rounded-full border-0 bg-transparent py-1.5 px-3 text-gray-100 outline-none transition-all duration-300 hover:bg-gray-200 hover:text-gray-800 focus:shadow-none"
+                href="#"
+                >1</a
+              >
+            </li>
+            <li class="page-item active">
+              <a
+                class="page-link relative block rounded-full border-0 bg-blue-600 py-1.5 px-3 text-white shadow-md outline-none transition-all duration-300 hover:bg-blue-600 hover:text-white focus:shadow-md"
+                href="#"
+                >2 <span class="visually-hidden">(current)</span></a
+              >
+            </li>
+            <li class="page-item">
+              <a
+                class="page-link relative block rounded-full border-0 bg-transparent py-1.5 px-3 text-gray-100 outline-none transition-all duration-300 hover:bg-gray-200 hover:text-gray-800 focus:shadow-none"
+                href="#"
+                >3</a
+              >
+            </li>
+            <li class="page-item">
+              <a
+                class="page-link relative block rounded-full border-0 bg-transparent py-1.5 px-3 text-white outline-none transition-all duration-300 hover:bg-gray-200 hover:text-gray-800 focus:shadow-none"
+                href="#"
+                >Next</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div> -->
+      <!-- 分页 -->
+    </div>
+    <!-- 侧弹出 -->
   </div>
 
   <div

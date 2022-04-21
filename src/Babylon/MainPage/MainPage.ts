@@ -88,27 +88,27 @@ export class MainPage {
       this.scene
     );
 
-    const detector = await SceneLoader.ImportMeshAsync(
-      "",
-      "model/Detector_model/",
-      "Detector.gltf",
-      this.scene
-    );
-    // console.log(detector);
+    // const detector = await SceneLoader.ImportMeshAsync(
+    //   "",
+    //   "model/Detector_model/",
+    //   "Detector.gltf",
+    //   this.scene
+    // );
+    // // console.log(detector);
 
-    detector.meshes[0].position.y = -6;
-    this.meshes.push(detector.meshes[0]);
+    // detector.meshes[0].position.y = -6;
+    // this.meshes.push(detector.meshes[0]);
     this.meshes.push(model.meshes[0]);
 
     this.scene.createDefaultLight(true);
 
-    this.camera1.target.x = this.meshes[1].position.x;
-    this.camera1.target.y = this.meshes[1].position.y + this.compensate.y;
-    this.camera1.target.z = this.meshes[1].position.z;
+    // this.camera1.target.x = this.meshes[1].position.x;
+    // this.camera1.target.y = this.meshes[1].position.y + this.compensate.y;
+    // this.camera1.target.z = this.meshes[1].position.z;
 
     setTimeout(() => {
       this.loaded.value = true;
-    }, 1500);
+    }, 1000);
   }
 
   Switch() {
