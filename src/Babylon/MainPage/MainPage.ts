@@ -39,7 +39,7 @@ export class MainPage {
 
     if (window.innerHeight / window.innerWidth > 1.76) {
       this.radius = 7;
-      this.compensate.y = 1.5;
+      this.compensate.y = 2.5;
       this.compensate.x = 0;
     } else {
       this.radius = 4;
@@ -200,6 +200,9 @@ export class MainPage {
 
     if (window.innerHeight / window.innerWidth > 1.76) {
       this.camera1.radius = 7;
+      console.log("true");
+
+      this.camera1.target.y += 1.5;
     }
     // this.camera1.attachControl()
     // this.camera1.wheelPrecision = 10
